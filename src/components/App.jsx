@@ -37,13 +37,13 @@ export const App = () => {
     }
   }
   const handleFilterChange = (event) => {
-   dispatch(setContactsFilter(event.target.value));
+    dispatch(setContactsFilter(event.target.value));
   };
+  
   
   const handleDeleteContact = (contactId) => {
     dispatch(deleteContact(contactId));
       };
-      
 
   return (
     <div className={css.container}>
