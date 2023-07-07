@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { addContact, deleteContact } from '../redux/contactsSlice';
 import { setContactsFilter } from '../redux/filtersSlice';
@@ -13,17 +13,6 @@ export const App = () => {
   const dispatch = useDispatch();
   const contacts = useSelector((state) => state.contacts);
   const filter = useSelector((state) => state.filter);
-
-  useEffect(() => {
-    const savedContacts = localStorage.getItem('contacts');
-    if (savedContacts) {
-      dispatch(addContact(JSON.parse(savedContacts)));
-    }
-  }, [dispatch]);
-
-  useEffect(() => {
-    localStorage.setItem('contacts', JSON.stringify(contacts));
-  }, [contacts]);
 
   const handleAddContact = (newContact) => {
     const isDuplicate = contacts.some(
