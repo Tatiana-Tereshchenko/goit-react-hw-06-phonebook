@@ -24,7 +24,7 @@ export const App = () => {
     } else {
       dispatch(addContact(newContact));
     }
-  }
+  };
   const handleFilterChange = (event) => {
     dispatch(setContactsFilter(event.target.value));
   };
