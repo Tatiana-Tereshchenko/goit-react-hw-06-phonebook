@@ -1,32 +1,31 @@
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+
+import { useDispatch, useSelector } from 'react-redux';
 import { addContact } from 'redux/contactsSlice';
+import { getContactsList } from 'redux/selectors';
 
 import css from './ContactForm.module.css';
 
 export const ContactForm = ( ) => {
     const dispatch = useDispatch();
-    
-    const [name, setName] = useState('');
-    const [number, setNumber] = useState('');
+    const contacts = useSelector(getContactsList);
 
-        const handleSubmit = (event) => {
-            event.preventDefault();
-            if (name.trim() === '' || number.trim() === '') return;
-            dispatch(addContact( name, number ));
-            setName('');
-            setNumber('');
+    const handleSubmit = e => {
+    e.preventDefault();
+
+    const form = e.target;
+    const nameImput = e.target.elements.name.value;
+    const number = e.target.elements.number.value;
+
+    if (contacts.some(({ name }) => name === nameImput)) {
+        return alert(`${nameImput} is already in contacts`);
+    }
+
+    dispatch(addContact(nameImput, number));
+    form.reset();
     };
 
-        const handleNameChange = (event) => {
-            setName( event.target.value);
-    };
-    
-        const handleNumberChange = (event) => {
-            const inputNumber = event.target.value;
-            const sanitizedNumber = inputNumber.replace(/\D/g, ''); 
-            setNumber(sanitizedNumber);
-    };
+
+   
     
     return (
         <form className={css.form} onSubmit={handleSubmit}>
@@ -34,16 +33,14 @@ export const ContactForm = ( ) => {
             type="text"
             name="name"
             placeholder="Name"
-            value={name}
-            onChange={handleNameChange}
+            value={contacts.name}
             required
         />
         <input className={css.text}
             type="tel"
             name="number"
             placeholder="Phone number"
-            value={number}
-            onChange={handleNumberChange}
+            value={contacts.name}
             required
         />
         <button className={css.button} type="submit">Add Contact</button>
